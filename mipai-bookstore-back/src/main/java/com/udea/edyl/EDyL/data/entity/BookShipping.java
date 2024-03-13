@@ -1,13 +1,13 @@
 package com.udea.edyl.EDyL.data.entity;
 
-import java.util.List;
+import java.util.Date;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,17 +17,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "address")
-public class Address {
+@Table(name = "book_shipping")
+public class BookShipping {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long addressId;
-    @Column(nullable = false)
-    private String street;
-    @Column(nullable = false)
-    private String city;
-    private String postalCode;
+    private Long shippingId;
+    private Integer estimatedShippingDays;
+    private Date shippingDate;
+    private Boolean delivered;
 
-    @ManyToMany(mappedBy = "addresses")
-    private List<User> users;
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    private BookOrder bookOrder;
 }

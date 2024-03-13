@@ -1,7 +1,8 @@
 package com.udea.edyl.EDyL.data.entity;
 
-import java.io.Serializable;
 import java.util.List;
+
+import org.hibernate.annotations.ManyToAny;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,8 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,34 +20,29 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "app_user")
-public class User implements Serializable{
+@Table(name = "book")
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long bookId;
     @Column(nullable = false)
-    private String userName;
+    private String tittle;
     @Column(nullable = false)
-    private String lastName;
+    private String category;
     @Column(nullable = false)
-    private String email;
+    private String author;
     @Column(nullable = false)
-    private String userPassword;
+    private Float price;
     @Column(nullable = false)
-    private UserType userType;
-    private String phoneNumber;
+    private BookType bookType;
+    private String isbn;
+    private String editorial;
 
-    @ManyToMany
+    @ManyToAny
     @JoinTable(
-        name = "user_address",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "address_id")
+        name = "book_order_book",
+        joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name = "order_id")
     )
-    private List<Address> addresses;
-
-    @OneToMany(mappedBy = "user")
-    private List<Suggestion> suggestions;
-
-    @OneToMany(mappedBy = "user")
     private List<BookOrder> bookOrders;
 }
