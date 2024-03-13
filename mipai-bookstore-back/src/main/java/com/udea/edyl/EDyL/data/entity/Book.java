@@ -1,5 +1,6 @@
 package com.udea.edyl.EDyL.data.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.annotations.ManyToAny;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "book")
-public class Book {
+public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;

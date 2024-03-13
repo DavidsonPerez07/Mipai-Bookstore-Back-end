@@ -1,5 +1,6 @@
 package com.udea.edyl.EDyL.data.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @Table(name = "book_shipping")
-public class BookShipping {
+public class BookShipping implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long shippingId;

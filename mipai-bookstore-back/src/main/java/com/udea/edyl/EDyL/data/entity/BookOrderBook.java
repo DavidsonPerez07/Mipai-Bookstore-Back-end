@@ -1,5 +1,7 @@
 package com.udea.edyl.EDyL.data.entity;
 
+import java.io.Serializable;
+
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Table(name = "book_order_book")
-public class BookOrderBook {
+public class BookOrderBook implements Serializable {
     @ManyToOne
     @JoinColumn(name = "book_id")
     private Book book;
