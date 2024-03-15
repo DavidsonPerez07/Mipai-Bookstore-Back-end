@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -36,6 +37,8 @@ public class Book implements Serializable {
     private Float price;
     @Column(nullable = false)
     private BookType bookType;
+    @Lob
+    private Byte[] bookImage;
     private String isbn;
     private String editorial;
 

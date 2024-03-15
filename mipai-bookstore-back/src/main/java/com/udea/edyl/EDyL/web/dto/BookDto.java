@@ -18,6 +18,7 @@ public class BookDto implements Serializable {
     private String author;
     private Float price;
     private BookType bookType;
+    private Byte[] bookImage;
     private String isbn;
     private String editorial;
 }
