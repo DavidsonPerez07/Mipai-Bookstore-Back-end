@@ -22,7 +22,7 @@ public class BookController {
     private BookService bookService;
 
     public BookController(BookService bookService) {
-        this.bookService = bookService;    
+        this.bookService = bookService;  
     }
 
     @PostMapping("/save-book")

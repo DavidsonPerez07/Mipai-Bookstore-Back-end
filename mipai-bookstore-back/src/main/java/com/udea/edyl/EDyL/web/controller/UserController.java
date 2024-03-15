@@ -1,5 +1,7 @@
 package com.udea.edyl.EDyL.web.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -49,6 +51,13 @@ public class UserController {
         }
 
         return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/get-all-users")
+    public ResponseEntity<?> showAllBooks() {
+        List<UserDto> userDtos = userService.getAllUsers();
+
+        return ResponseEntity.ok(userDtos);
     }
 
     @DeleteMapping("/delete-user")

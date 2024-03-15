@@ -1,8 +1,10 @@
 package com.udea.edyl.EDyL.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.udea.edyl.EDyL.data.entity.Address;
@@ -10,18 +12,19 @@ import com.udea.edyl.EDyL.data.entity.User;
 import com.udea.edyl.EDyL.data.entity.UserType;
 import com.udea.edyl.EDyL.data.repository.AddressRepository;
 import com.udea.edyl.EDyL.data.repository.UserRepository;
+import com.udea.edyl.EDyL.web.dto.AddressDto;
 import com.udea.edyl.EDyL.web.dto.UserDto;
-import com.udea.edyl.EDyL.web.mapper.AddressMapper;
-import com.udea.edyl.EDyL.web.mapper.UserMapper;
 
 @Service
 public class UserService {
     private UserRepository userRepo;
     private AddressRepository addressRepo;
+    private ModelMapper userMapper;
 
-    public UserService(UserRepository userRepo, AddressRepository addressRepo) {
+    public UserService(UserRepository userRepo, AddressRepository addressRepo, ModelMapper userMapper) {
         this.userRepo = userRepo;
         this.addressRepo = addressRepo;
+        this.userMapper = userMapper;
     }
 
     @SuppressWarnings("null")
@@ -45,10 +48,10 @@ public class UserService {
             throw new Exception("User type is required");
         }
 
-        User entUser = UserMapper.INSTANCE.userDtoToUser(userDto);
+        User entUser = userMapper.map(userDto, User.class);
         entUser = userRepo.save(entUser);
         
-        return UserMapper.INSTANCE.userToUserDto(entUser);
+        return userMapper.map(entUser, UserDto.class);
     }
 
     @SuppressWarnings("null")
@@ -59,13 +62,26 @@ public class UserService {
         UserDto userDto = new UserDto();
 
         if (user.isPresent()) {
-            userDto = UserMapper.INSTANCE.userToUserDto(user.get());
+            userDto = userMapper.map(user.get(), UserDto.class);
         }
         else {
             userDto = null;
         }
 
         return userDto;
+    }
+
+    public List<UserDto> getAllUsers() {
+        List<User> users;
+        users = userRepo.findAll();
+
+        List<UserDto> userDtos = new ArrayList<UserDto>();
+
+        for (User user : users) {
+            userDtos.add(userMapper.map(user, UserDto.class));
+        }
+
+        return userDtos;
     }
 
     @SuppressWarnings("null")
@@ -93,7 +109,12 @@ public class UserService {
             entUser.get().setUserName(updatedUser.getUserName());
 
             if (entUser.get().getUserType() == UserType.CLIENT) {
-                List<Address> newAddresses = AddressMapper.INSTANCE.addressDtosToAddresses(updatedUser.getAddresses());
+                List<Address> newAddresses = new ArrayList<Address>();
+
+                for (AddressDto addressDto : updatedUser.getAddresses()) {
+                    newAddresses.add(userMapper.map(addressDto, Address.class));
+                }
+
                 addressRepo.saveAll(newAddresses);
                 entUser.get().getAddresses().addAll(newAddresses);
                 entUser.get().setPhoneNumber(updatedUser.getPhoneNumber());

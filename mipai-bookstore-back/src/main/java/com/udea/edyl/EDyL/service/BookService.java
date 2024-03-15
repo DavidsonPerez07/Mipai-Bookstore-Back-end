@@ -1,22 +1,25 @@
 package com.udea.edyl.EDyL.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.udea.edyl.EDyL.data.entity.Book;
 import com.udea.edyl.EDyL.data.entity.BookType;
 import com.udea.edyl.EDyL.data.repository.BookRepository;
 import com.udea.edyl.EDyL.web.dto.BookDto;
-import com.udea.edyl.EDyL.web.mapper.BookMapper;
 
 @Service
 public class BookService {
     private BookRepository bookRepo;
+    private ModelMapper bookMapper;
 
-    public BookService(BookRepository bookRepo) {
+    public BookService(BookRepository bookRepo, ModelMapper bookMapper) {
         this.bookRepo = bookRepo;
+        this.bookMapper = bookMapper;
     }
 
     @SuppressWarnings("null")
@@ -40,10 +43,10 @@ public class BookService {
             throw new Exception("Book type is required");
         }
 
-        Book entBook = BookMapper.INSTANCE.bookDtoToBook(bookDto);
+        Book entBook = bookMapper.map(bookDto, Book.class);
         entBook = bookRepo.save(entBook);
 
-        return BookMapper.INSTANCE.bookToBookDto(entBook);
+        return bookMapper.map(entBook, BookDto.class);
     }
 
     @SuppressWarnings("null")
@@ -54,7 +57,7 @@ public class BookService {
         BookDto bookDto = new BookDto();
 
         if (book.isPresent()) {
-            bookDto = BookMapper.INSTANCE.bookToBookDto(book.get());
+            bookDto = bookMapper.map(book.get(), BookDto.class);
         }
         else {
             bookDto = null;
@@ -67,7 +70,13 @@ public class BookService {
         List<Book> books;
         books = bookRepo.findAll();
 
-        return BookMapper.INSTANCE.BooksToBookDtos(books);
+        List<BookDto> bookDtos = new ArrayList<BookDto>();
+
+        for (Book book : books) {
+            bookDtos.add(bookMapper.map(book, BookDto.class));
+        }
+
+        return bookDtos;
     }
 
     @SuppressWarnings("null")
