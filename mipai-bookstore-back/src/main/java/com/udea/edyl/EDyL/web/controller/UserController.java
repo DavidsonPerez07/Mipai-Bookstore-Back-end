@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("/get-user") 
-    public ResponseEntity<?> showStudent(@RequestParam Long userId) {
+    public ResponseEntity<?> getUser(@RequestParam Long userId) {
         UserDto resp;
         resp = userService.getUser(userId);
 
@@ -48,7 +48,7 @@ public class UserController {
     }
 
     @GetMapping("/get-all-users")
-    public ResponseEntity<?> showAllBooks() {
+    public ResponseEntity<?> getAllUsers() {
         List<UserDto> userDtos = userService.getAllUsers();
 
         return ResponseEntity.ok(userDtos);
@@ -56,8 +56,7 @@ public class UserController {
 
     @DeleteMapping("/delete-user")
     public ResponseEntity<?> deleteUser(@RequestParam Long userId) {
-        Boolean resp;
-        resp = userService.deleteUser(userId);
+        Boolean resp = userService.deleteUser(userId);
 
         if (!resp) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This user doesn't exist");

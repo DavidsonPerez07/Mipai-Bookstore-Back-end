@@ -43,16 +43,14 @@ public class BookService {
             throw new Exception("Book type is required");
         }
 
-        Book entBook = bookMapper.map(bookDto, Book.class);
-        entBook = bookRepo.save(entBook);
+        Book entBook = bookRepo.save(bookMapper.map(bookDto, Book.class));
 
         return bookMapper.map(entBook, BookDto.class);
     }
 
     @SuppressWarnings("null")
     public BookDto getBook(Long bookId) {
-        Optional<Book> book;
-        book = bookRepo.findById(bookId);
+        Optional<Book> book = bookRepo.findById(bookId);
 
         BookDto bookDto = new BookDto();
 
@@ -67,8 +65,7 @@ public class BookService {
     }
 
     public List<BookDto> getAllBooks() {
-        List<Book> books;
-        books = bookRepo.findAll();
+        List<Book> books = bookRepo.findAll();
 
         List<BookDto> bookDtos = new ArrayList<BookDto>();
 

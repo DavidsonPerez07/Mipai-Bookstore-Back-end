@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class SuggestionDto implements Serializable {
     private Long suggestionId;
     private String mesage;
-    private UserDto user;
+    private Long userId;
 }

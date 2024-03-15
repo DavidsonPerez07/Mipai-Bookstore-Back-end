@@ -8,9 +8,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -37,14 +34,7 @@ public class User implements Serializable{
     @Column(nullable = false)
     private UserType userType;
     private String phoneNumber;
-
-    @ManyToMany
-    @JoinTable(
-        name = "user_address",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "address_id")
-    )
-    private List<Address> addresses;
+    private String address;
 
     @OneToMany(mappedBy = "user")
     private List<Suggestion> suggestions;
