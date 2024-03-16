@@ -45,6 +45,7 @@ public class SuggestionService {
 
         Suggestion entSuggestion = suggestionRepo.save(suggestionMapper.map(suggestionDto, Suggestion.class));
         entSuggestion.setUser(user.get());
+        entSuggestion = suggestionRepo.save(entSuggestion);
 
         return suggestionMapper.map(entSuggestion, SuggestionDto.class);
     }

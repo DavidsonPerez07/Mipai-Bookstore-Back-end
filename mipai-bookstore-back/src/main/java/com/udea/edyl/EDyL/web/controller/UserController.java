@@ -37,8 +37,7 @@ public class UserController {
 
     @GetMapping("/get-user") 
     public ResponseEntity<?> getUser(@RequestParam Long userId) {
-        UserDto resp;
-        resp = userService.getUser(userId);
+        UserDto resp = userService.getUser(userId);
 
         if (resp == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This user doesn't exist");

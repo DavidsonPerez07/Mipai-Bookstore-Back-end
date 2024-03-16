@@ -15,6 +15,6 @@ public class BookOrderDto implements Serializable {
     private Long orderId;
     private Float orderValue;
     private Date orderDate;
-    private UserDto user;
+    private Long userId;
     private List<BookDto> books;
 }

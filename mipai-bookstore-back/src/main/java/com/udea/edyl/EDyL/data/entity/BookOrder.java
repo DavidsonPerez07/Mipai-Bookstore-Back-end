@@ -27,7 +27,6 @@ public class BookOrder implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
-    @Column(nullable = false)
     private Float orderValue;
     @Column(nullable = false)
     private Date orderDate;
