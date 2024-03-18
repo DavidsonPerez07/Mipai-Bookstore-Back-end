@@ -15,5 +15,5 @@ public class BookShippingDto implements Serializable {
     private Integer estimatedShippingDays;
     private Date shippingDate;
     private Boolean delivered;
-    private BookOrderDto bookOrder;
+    private Long bookOrderId;
 }

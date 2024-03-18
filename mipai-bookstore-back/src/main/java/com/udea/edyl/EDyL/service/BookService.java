@@ -77,7 +77,7 @@ public class BookService {
     }
 
     @SuppressWarnings("null")
-    public boolean deleteBook(Long bookId) {
+    public Boolean deleteBook(Long bookId) {
         Boolean exists = bookRepo.existsById(bookId);
 
         if (exists) {

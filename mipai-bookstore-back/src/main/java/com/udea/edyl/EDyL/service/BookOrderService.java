@@ -20,7 +20,8 @@ public class BookOrderService {
     UserRepository userRepo;
     ModelMapper bookOrderMapper;
 
-    public BookOrderService(BookOrderRepository bookOrderRepo, UserRepository userRepo, ModelMapper bookOrderMapper) {
+    public BookOrderService(BookOrderRepository bookOrderRepo, UserRepository userRepo, 
+    ModelMapper bookOrderMapper) {
         this.bookOrderRepo = bookOrderRepo;
         this.userRepo = userRepo;
         this.bookOrderMapper = bookOrderMapper;
@@ -47,7 +48,8 @@ public class BookOrderService {
             throw new Exception("The user does't exist");
         }
 
-        BookOrder entBookOrder = bookOrderRepo.save(bookOrderMapper.map(bookOrderDto, BookOrder.class));
+        BookOrder entBookOrder = bookOrderRepo.save(bookOrderMapper.map(bookOrderDto, 
+        BookOrder.class));
         entBookOrder.setOrderValue(orderValue);
         entBookOrder.setUser(user.get());
         entBookOrder = bookOrderRepo.save(entBookOrder);
@@ -81,5 +83,19 @@ public class BookOrderService {
         }
 
         return bookOrderDtos;
+    }
+
+    @SuppressWarnings("null")
+    public Boolean deleteBookOrder(Long bookOrderId) {
+        Boolean exists = bookOrderRepo.existsById(bookOrderId);
+
+        if (exists) {
+            bookOrderRepo.deleteById(bookOrderId);
+        }
+        else {
+            return false;
+        }
+
+        return exists;
     }
 }

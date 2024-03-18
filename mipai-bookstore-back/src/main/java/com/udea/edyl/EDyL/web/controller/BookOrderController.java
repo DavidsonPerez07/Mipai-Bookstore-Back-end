@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,5 +56,16 @@ public class BookOrderController {
         List<BookOrderDto> bookOrderDtos = bookOrderService.getAllBookOrders();
 
         return ResponseEntity.ok(bookOrderDtos);
+    }
+
+    @DeleteMapping("/delete-book-order")
+    public ResponseEntity<?> deleteBookOrder(@RequestParam Long bookOrderId) {
+        Boolean resp = bookOrderService.deleteBookOrder(bookOrderId);
+
+        if (!resp) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This book order doesn't exist");
+        }
+
+        return ResponseEntity.ok().build();
     }
 }

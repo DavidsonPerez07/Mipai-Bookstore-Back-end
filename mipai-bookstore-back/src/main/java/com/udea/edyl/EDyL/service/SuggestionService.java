@@ -19,7 +19,8 @@ public class SuggestionService {
     private UserRepository userRepo;
     private ModelMapper suggestionMapper;
 
-    public SuggestionService(SuggestionRepository suggestionRepo, UserRepository userRepo, ModelMapper suggestionMapper) {
+    public SuggestionService(SuggestionRepository suggestionRepo, UserRepository userRepo, 
+    ModelMapper suggestionMapper) {
         this.suggestionRepo = suggestionRepo;
         this.userRepo = userRepo;
         this.suggestionMapper = suggestionMapper;
@@ -43,7 +44,8 @@ public class SuggestionService {
             throw new Exception("The user doesn't exist");
         }
 
-        Suggestion entSuggestion = suggestionRepo.save(suggestionMapper.map(suggestionDto, Suggestion.class));
+        Suggestion entSuggestion = suggestionRepo.save(suggestionMapper.map(suggestionDto, 
+        Suggestion.class));
         entSuggestion.setUser(user.get());
         entSuggestion = suggestionRepo.save(entSuggestion);
 
@@ -72,7 +74,8 @@ public class SuggestionService {
         List<SuggestionDto> suggestionDtos = new ArrayList<SuggestionDto>();
 
         for (Suggestion suggestion : suggestions) {
-            suggestionDtos.add(suggestionMapper.map(suggestion, SuggestionDto.class));
+            suggestionDtos.add(suggestionMapper.map(suggestion, 
+            SuggestionDto.class));
         }
 
         return suggestionDtos;

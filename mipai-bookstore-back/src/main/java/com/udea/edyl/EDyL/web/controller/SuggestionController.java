@@ -25,7 +25,8 @@ public class SuggestionController {
     }
 
     @PostMapping("/save-suggestion")
-    public ResponseEntity<?> saveSuggestion(@RequestBody SuggestionDto suggestionDto) throws Exception {
+    public ResponseEntity<?> saveSuggestion(@RequestBody SuggestionDto suggestionDto) 
+    throws Exception {
         if (suggestionDto == null) {
             return ResponseEntity.badRequest().body("Ivalid suggestion data");
         }
@@ -46,7 +47,8 @@ public class SuggestionController {
         resp = suggestionService.getSuggestion(suggestionId);
 
         if (resp == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This suggestions doesn't exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body("This suggestions doesn't exist");
         }
 
         return ResponseEntity.ok(resp);
@@ -64,7 +66,8 @@ public class SuggestionController {
         Boolean resp = suggestionService.deleteSuggestion(suggestionId);
 
         if (!resp) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This suggestion doen't exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            .body("This suggestion doen't exist");
         }
 
         return ResponseEntity.ok().build();

@@ -66,8 +66,7 @@ public class UserController {
 
     @PutMapping("/update-user")
     public ResponseEntity<?> updateUser(@RequestParam Long userId, @RequestBody UserDto updatedUser) {
-        Boolean resp;
-        resp = userService.editUser(userId, updatedUser);
+        Boolean resp = userService.editUser(userId, updatedUser);
 
         if (!resp) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This user does't exist");

@@ -104,6 +104,8 @@ public class UserService {
                 entUser.get().setPhoneNumber(updatedUser.getPhoneNumber());
                 entUser.get().setAddress(updatedUser.getAddress());
             }
+
+            userRepo.save(entUser.get());
         }
         else {
             return false;
