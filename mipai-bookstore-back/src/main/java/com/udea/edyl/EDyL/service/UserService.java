@@ -114,7 +114,7 @@ public class UserService {
         return exists;
     }
 
-    public boolean existEmail(String email) {
+    public Boolean existEmail(String email) {
         List<String> emails = getEmails();
 
         if (emails.contains(email)) {
@@ -127,5 +127,19 @@ public class UserService {
 
     public List<String> getEmails() {
         return userRepo.findEmailBy();
+    }
+
+    public Boolean verifyLogin(String email, String password) {
+        User user = new User();
+
+        if (existEmail(email)) {
+            user = userRepo.findByEmail(email);
+        }
+        else {
+            user = null;
+            return false;
+        }
+
+        return user != null && user.getUserPassword().equals(password);
     }
 }

@@ -6,8 +6,10 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.udea.edyl.EDyL.data.entity.User;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {  
     
     @Query("SELECT u.email FROM User u")
     List<String> findEmailBy();
+
+    User findByEmail(String email);
 }

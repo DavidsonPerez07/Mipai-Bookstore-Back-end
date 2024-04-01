@@ -88,4 +88,11 @@ public class UserController {
 
         return ResponseEntity.ok(emails);
     }
+
+    @GetMapping("/login")
+    public ResponseEntity<Boolean> login(@RequestParam String email, @RequestParam String password) {
+        Boolean loginSuccessful = userService.verifyLogin(email, password);
+
+        return ResponseEntity.ok(loginSuccessful);
+    }
 }
