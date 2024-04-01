@@ -69,9 +69,23 @@ public class UserController {
         Boolean resp = userService.editUser(userId, updatedUser);
 
         if (!resp) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This user does't exist");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This user doesn't exist");
         }
 
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/exist-email")
+    public ResponseEntity<Boolean> existEmail(@RequestParam String email) {
+        Boolean resp = userService.existEmail(email);
+
+        return ResponseEntity.ok(resp);
+    }
+
+    @GetMapping("/get-user-emails")
+    public ResponseEntity<?> getEmails() {
+        List<String> emails = userService.getEmails();
+
+        return ResponseEntity.ok(emails);
     }
 }

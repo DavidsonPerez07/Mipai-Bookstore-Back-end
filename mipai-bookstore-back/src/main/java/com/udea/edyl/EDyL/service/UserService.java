@@ -113,4 +113,19 @@ public class UserService {
 
         return exists;
     }
+
+    public boolean existEmail(String email) {
+        List<String> emails = getEmails();
+
+        if (emails.contains(email)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public List<String> getEmails() {
+        return userRepo.findEmailBy();
+    }
 }
