@@ -2,6 +2,7 @@ package com.udea.edyl.EDyL.web.controller;
 
 import java.util.List;
 
+import com.udea.edyl.EDyL.web.dto.LoginData;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -75,7 +76,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/exist-email")
+        @GetMapping("/exist-email")
     public ResponseEntity<Boolean> existEmail(@RequestParam String email) {
         Boolean resp = userService.existEmail(email);
 
@@ -89,9 +90,9 @@ public class UserController {
         return ResponseEntity.ok(emails);
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<Boolean> login(@RequestParam String email, @RequestParam String password) {
-        Boolean loginSuccessful = userService.verifyLogin(email, password);
+    @PostMapping("/login")
+    public ResponseEntity<Boolean> login(@RequestBody LoginData loginData) {
+        Boolean loginSuccessful = userService.verifyLogin(loginData);
 
         return ResponseEntity.ok(loginSuccessful);
     }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.udea.edyl.EDyL.web.dto.LoginData;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -129,17 +130,17 @@ public class UserService {
         return userRepo.findEmailBy();
     }
 
-    public Boolean verifyLogin(String email, String password) {
+    public Boolean verifyLogin(LoginData logData) {
         User user = new User();
 
-        if (existEmail(email)) {
-            user = userRepo.findByEmail(email);
+        if (existEmail(logData.getEmail())) {
+            user = userRepo.findByEmail(logData.getEmail());
         }
         else {
             user = null;
             return false;
         }
 
-        return user != null && user.getUserPassword().equals(password);
+        return user != null && user.getUserPassword().equals(logData.getPassword());
     }
 }
