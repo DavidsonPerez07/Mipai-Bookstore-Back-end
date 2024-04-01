@@ -143,4 +143,20 @@ public class UserService {
 
         return user != null && user.getUserPassword().equals(logData.getPassword());
     }
+
+    @SuppressWarnings("null")
+    public UserDto getUserByEmail(String email) {
+        User user = userRepo.findByEmail(email);
+
+        UserDto userDto = new UserDto();
+
+        if (user != null) {
+            userDto = userMapper.map(user, UserDto.class);
+        }
+        else {
+            userDto = null;
+        }
+
+        return userDto;
+    }
 }

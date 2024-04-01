@@ -96,4 +96,15 @@ public class UserController {
 
         return ResponseEntity.ok(loginSuccessful);
     }
+
+    @GetMapping("/get-user-by-email")
+    public ResponseEntity<?> getUserByEmail(@RequestParam String email) {
+        UserDto resp = userService.getUserByEmail(email);
+
+        if (resp == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This user doesn't exist");
+        }
+
+        return ResponseEntity.ok(resp);
+    }
 }
