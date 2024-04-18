@@ -49,8 +49,9 @@ public class BookService {
         else if (bookDto.getQuantity() == null) {
             throw new Exception("Quantity is required");
         }
-
-        
+        else if (bookDto.getBookImage() == null) {
+            throw new Exception("Image is required");
+        }
 
         Book entBook = bookRepo.save(bookMapper.map(bookDto, Book.class));
 
