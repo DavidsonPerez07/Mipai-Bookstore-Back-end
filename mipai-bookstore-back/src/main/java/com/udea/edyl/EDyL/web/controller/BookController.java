@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.udea.edyl.EDyL.service.BookService;
 import com.udea.edyl.EDyL.web.dto.BookDto;
@@ -27,15 +26,10 @@ public class BookController {
     }
 
     @PostMapping("/save-book")
-    public ResponseEntity<?> saveBook(@RequestBody BookDto bookDto, 
-    @RequestParam MultipartFile bookImage) throws Exception {
+    public ResponseEntity<?> saveBook(@RequestBody BookDto bookDto) throws Exception {
         if (bookDto == null) {
             return ResponseEntity.badRequest().body("Invalid book data");
         }
-
-        byte[] bookImagefileToBytes = bookImage.getBytes();
-
-        bookDto.setBookImage(bookImagefileToBytes);
 
         BookDto resp;
         try {
