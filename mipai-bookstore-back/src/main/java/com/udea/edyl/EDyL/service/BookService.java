@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.udea.edyl.EDyL.data.entity.Book;
-import com.udea.edyl.EDyL.data.entity.BookType;
 import com.udea.edyl.EDyL.data.repository.BookRepository;
 import com.udea.edyl.EDyL.web.dto.BookDto;
 
@@ -22,12 +21,11 @@ public class BookService {
         this.bookMapper = bookMapper;
     }
 
-    @SuppressWarnings("null")
     public BookDto saveBook(BookDto bookDto) throws Exception {
         if (bookDto == null) {
             throw new Exception("Invalid parameter");
         }
-        else if (bookDto.getTittle() == null || bookDto.getTittle().isEmpty()) {
+        else if (bookDto.getBookName() == null || bookDto.getBookName().isEmpty()) {
             throw new Exception("Tittle is required");
         }
         else if (bookDto.getCategory() == null || bookDto.getCategory().isEmpty()) {
@@ -42,17 +40,25 @@ public class BookService {
         else if (bookDto.getBookType() == null) {
             throw new Exception("Book type is required");
         }
+        else if (bookDto.getEditorial() == null) {
+            throw new Exception("Editorial is required");
+        }
+        else if (bookDto.getBookDescription() == null) {
+            throw new Exception("Description is required");
+        }
+        else if (bookDto.getQuantity() == null) {
+            throw new Exception("Quantity is required");
+        }
 
         Book entBook = bookRepo.save(bookMapper.map(bookDto, Book.class));
 
         return bookMapper.map(entBook, BookDto.class);
     }
 
-    @SuppressWarnings("null")
     public BookDto getBook(Long bookId) {
         Optional<Book> book = bookRepo.findById(bookId);
 
-        BookDto bookDto = new BookDto();
+        BookDto bookDto;
 
         if (book.isPresent()) {
             bookDto = bookMapper.map(book.get(), BookDto.class);
@@ -67,7 +73,7 @@ public class BookService {
     public List<BookDto> getAllBooks() {
         List<Book> books = bookRepo.findAll();
 
-        List<BookDto> bookDtos = new ArrayList<BookDto>();
+        List<BookDto> bookDtos = new ArrayList<>();
 
         for (Book book : books) {
             bookDtos.add(bookMapper.map(book, BookDto.class));
@@ -76,7 +82,6 @@ public class BookService {
         return bookDtos;
     }
 
-    @SuppressWarnings("null")
     public Boolean deleteBook(Long bookId) {
         Boolean exists = bookRepo.existsById(bookId);
 
@@ -90,23 +95,20 @@ public class BookService {
         return exists;
     }
 
-    @SuppressWarnings("null")
     public Boolean editBook(Long bookId, BookDto updatedBook) {
         Boolean exists = bookRepo.existsById(bookId);
 
         if (exists) {
             Optional<Book> entBook = bookRepo.findById(bookId);
+            entBook.get().setBookName(updatedBook.getBookName());
             entBook.get().setAuthor(updatedBook.getAuthor());
-            entBook.get().setBookImage(updatedBook.getBookImage());
-            entBook.get().setBookType(updatedBook.getBookType());
-            entBook.get().setCategory(updatedBook.getCategory());
+            entBook.get().setBookDescription(updatedBook.getBookDescription());
             entBook.get().setPrice(updatedBook.getPrice());
-            entBook.get().setTittle(updatedBook.getTittle());
-
-            if (entBook.get().getBookType() == BookType.PHYSICAL) {
-                entBook.get().setEditorial(updatedBook.getEditorial());
-                entBook.get().setIsbn(updatedBook.getIsbn());
-            }
+            entBook.get().setCategory(updatedBook.getCategory());
+            entBook.get().setQuantity(updatedBook.getQuantity());
+            entBook.get().setBookType(updatedBook.getBookType());
+            entBook.get().setBookImage(updatedBook.getBookImage());
+            entBook.get().setEditorial(updatedBook.getEditorial());
 
             bookRepo.save(entBook.get());
         }

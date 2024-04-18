@@ -23,7 +23,6 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    @SuppressWarnings("null")
     public UserDto saveUser(UserDto userDto) throws Exception {
         if (userDto == null) {
             throw new Exception("Invalid parameter");
@@ -49,11 +48,10 @@ public class UserService {
         return userMapper.map(entUser, UserDto.class);
     }
 
-    @SuppressWarnings("null")
     public UserDto getUser(Long userId) {
         Optional<User> user = userRepo.findById(userId);
 
-        UserDto userDto = new UserDto();
+        UserDto userDto;
 
         if (user.isPresent()) {
             userDto = userMapper.map(user.get(), UserDto.class);
@@ -68,7 +66,7 @@ public class UserService {
     public List<UserDto> getAllUsers() {
         List<User> users = userRepo.findAll();
 
-        List<UserDto> userDtos = new ArrayList<UserDto>();
+        List<UserDto> userDtos = new ArrayList<>();
 
         for (User user : users) {
             userDtos.add(userMapper.map(user, UserDto.class));
@@ -77,7 +75,6 @@ public class UserService {
         return userDtos;
     }
 
-    @SuppressWarnings("null")
     public Boolean deleteUser(Long userId) {
         Boolean exists = userRepo.existsById(userId);
 
@@ -91,7 +88,6 @@ public class UserService {
         return exists;
     }
 
-    @SuppressWarnings("null")
     public Boolean editUser(Long userId, UserDto updatedUser) {
         Boolean exists = userRepo.existsById(userId);
 
@@ -131,7 +127,7 @@ public class UserService {
     }
 
     public Boolean verifyLogin(LoginData logData) {
-        User user = new User();
+        User user;
 
         if (existEmail(logData.getEmail())) {
             user = userRepo.findByEmail(logData.getEmail());
@@ -144,11 +140,10 @@ public class UserService {
         return user != null && user.getUserPassword().equals(logData.getPassword());
     }
 
-    @SuppressWarnings("null")
     public UserDto getUserByEmail(String email) {
         User user = userRepo.findByEmail(email);
 
-        UserDto userDto = new UserDto();
+        UserDto userDto;
 
         if (user != null) {
             userDto = userMapper.map(user, UserDto.class);

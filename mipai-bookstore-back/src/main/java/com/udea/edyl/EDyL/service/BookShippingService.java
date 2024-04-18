@@ -27,7 +27,6 @@ public class BookShippingService {
         this.bookOrderRepo = bookOrderRepo;
     }
 
-    @SuppressWarnings("null")
     public BookShippingDto saveBookShipping(BookShippingDto bookShippingDto) throws Exception {
         if (bookShippingDto == null) {
             throw new Exception("Invalid parameter");
@@ -50,11 +49,10 @@ public class BookShippingService {
         return bookShippingMapper.map(entBookShipping, BookShippingDto.class);
     }
 
-    @SuppressWarnings("null")
     public BookShippingDto getBookShipping(Long bookShippingId) {
         Optional<BookShipping> bookShipping = bookShippingRepo.findById(bookShippingId);
 
-        BookShippingDto bookShippingDto = new BookShippingDto();
+        BookShippingDto bookShippingDto;
 
         if (bookShipping.isPresent()) {
             bookShippingDto = bookShippingMapper.map(bookShipping, BookShippingDto.class);
@@ -79,7 +77,6 @@ public class BookShippingService {
         return bookShippingDtos;
     }
 
-    @SuppressWarnings("null")
     public Boolean deleteBookShipping(Long bookShippingId) {
         Boolean exists = bookShippingRepo.existsById(bookShippingId);
 
@@ -93,7 +90,6 @@ public class BookShippingService {
         return exists;
     }
 
-    @SuppressWarnings("null")
     public Boolean setDelivered(Long bookShippingId) {
         Boolean exists = bookShippingRepo.existsById(bookShippingId);
 

@@ -27,7 +27,6 @@ public class BookOrderService {
         this.bookOrderMapper = bookOrderMapper;
     }
 
-    @SuppressWarnings("null")
     public BookOrderDto saveBookOrder(BookOrderDto bookOrderDto) throws Exception {
         if (bookOrderDto == null) {
             throw new Exception("Invalid parameter");
@@ -57,11 +56,10 @@ public class BookOrderService {
         return bookOrderMapper.map(entBookOrder, BookOrderDto.class);
     }
 
-    @SuppressWarnings("null")
     public BookOrderDto getBookOrder(Long bookOrderId) {
         Optional<BookOrder> bookOrder = bookOrderRepo.findById(bookOrderId);
 
-        BookOrderDto bookOrderDto = new BookOrderDto();
+        BookOrderDto bookOrderDto;
 
         if (bookOrder.isPresent()) {
             bookOrderDto = bookOrderMapper.map(bookOrder, BookOrderDto.class);
@@ -76,7 +74,7 @@ public class BookOrderService {
     public List<BookOrderDto> getAllBookOrders() {
         List<BookOrder> bookOrders = bookOrderRepo.findAll();
 
-        List<BookOrderDto> bookOrderDtos = new ArrayList<BookOrderDto>();
+        List<BookOrderDto> bookOrderDtos = new ArrayList<>();
 
         for (BookOrder bookOrder : bookOrders) {
             bookOrderDtos.add(bookOrderMapper.map(bookOrder, BookOrderDto.class));
@@ -85,7 +83,6 @@ public class BookOrderService {
         return bookOrderDtos;
     }
 
-    @SuppressWarnings("null")
     public Boolean deleteBookOrder(Long bookOrderId) {
         Boolean exists = bookOrderRepo.existsById(bookOrderId);
 

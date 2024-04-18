@@ -28,19 +28,23 @@ public class Book implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bookId;
     @Column(nullable = false)
-    private String tittle;
-    @Column(nullable = false)
-    private String category;
+    private String bookName;
     @Column(nullable = false)
     private String author;
     @Column(nullable = false)
+    private String editorial;
+    @Column(nullable = false)
+    private String bookDescription;
+    @Column(nullable = false)
     private Float price;
+    @Column(nullable = false)
+    private String category;
+    @Column(nullable = false)
+    private Integer quantity;
     @Column(nullable = false)
     private BookType bookType;
     @Lob
     private Byte[] bookImage;
-    private String isbn;
-    private String editorial;
 
     @ManyToAny
     @JoinTable(

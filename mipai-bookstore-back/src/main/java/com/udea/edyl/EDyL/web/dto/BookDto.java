@@ -13,12 +13,13 @@ import lombok.NoArgsConstructor;
 @Data
 public class BookDto implements Serializable {
     private Long bookId;
-    private String tittle;
-    private String category;
+    private String bookName;
     private String author;
+    private String editorial;
+    private String bookDescription;
     private Float price;
+    private String category;
+    private Integer quantity;
     private BookType bookType;
     private Byte[] bookImage;
-    private String isbn;
-    private String editorial;
 }

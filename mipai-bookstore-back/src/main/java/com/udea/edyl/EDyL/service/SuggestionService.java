@@ -26,16 +26,12 @@ public class SuggestionService {
         this.suggestionMapper = suggestionMapper;
     }
 
-    @SuppressWarnings("null")
     public SuggestionDto saveSuggetion(SuggestionDto suggestionDto) throws Exception {
         if (suggestionDto == null) {
             throw new Exception("Invalid parameter");
         }
         else if (suggestionDto.getMesage() == null || suggestionDto.getMesage().isEmpty()) {
             throw new Exception("Message is required");
-        }
-        else if (suggestionDto.getMesage() == null || suggestionDto.getMesage().isEmpty()) {
-            throw new Exception("User id is required");
         }
 
         Optional<User> user = userRepo.findById(suggestionDto.getUserId());
@@ -52,11 +48,10 @@ public class SuggestionService {
         return suggestionMapper.map(entSuggestion, SuggestionDto.class);
     }
 
-    @SuppressWarnings("null")
     public SuggestionDto getSuggestion(Long suggestionId) {
         Optional<Suggestion> suggestion = suggestionRepo.findById(suggestionId);
 
-        SuggestionDto suggestionDto = new SuggestionDto();
+        SuggestionDto suggestionDto;
         
         if (suggestion.isPresent()) {
             suggestionDto = suggestionMapper.map(suggestion, SuggestionDto.class);
@@ -71,7 +66,7 @@ public class SuggestionService {
     public List<SuggestionDto> getAllSugestions() {
         List<Suggestion> suggestions = suggestionRepo.findAll();
 
-        List<SuggestionDto> suggestionDtos = new ArrayList<SuggestionDto>();
+        List<SuggestionDto> suggestionDtos = new ArrayList<>();
 
         for (Suggestion suggestion : suggestions) {
             suggestionDtos.add(suggestionMapper.map(suggestion, 
@@ -81,7 +76,6 @@ public class SuggestionService {
         return suggestionDtos;
     }
 
-    @SuppressWarnings("null")
     public Boolean deleteSuggestion(Long suggestionId) {
         Boolean exists = suggestionRepo.existsById(suggestionId);
 
