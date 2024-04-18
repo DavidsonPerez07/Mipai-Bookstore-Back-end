@@ -21,5 +21,5 @@ public class BookDto implements Serializable {
     private String category;
     private Integer quantity;
     private BookType bookType;
-    private Byte[] bookImage;
+    private byte[] bookImage;
 }

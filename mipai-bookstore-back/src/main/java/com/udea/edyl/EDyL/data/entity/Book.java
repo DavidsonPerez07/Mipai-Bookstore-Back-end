@@ -44,7 +44,7 @@ public class Book implements Serializable {
     @Column(nullable = false)
     private BookType bookType;
     @Lob
-    private Byte[] bookImage;
+    private byte[] bookImage;
 
     @ManyToAny
     @JoinTable(
