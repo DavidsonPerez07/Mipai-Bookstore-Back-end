@@ -30,7 +30,7 @@ public class BookController {
 
     @PostMapping("/save-book")
     public ResponseEntity<?> saveBook(@RequestBody BookDto bookDto, 
-    @RequestParam MultipartFile bookImage) throws Exception {
+    @RequestParam("bookImage") MultipartFile bookImage) throws Exception {
         if (bookDto == null) {
             return ResponseEntity.badRequest().body("Invalid book data");
         }
