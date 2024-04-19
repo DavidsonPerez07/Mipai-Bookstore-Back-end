@@ -43,8 +43,8 @@ public class Book implements Serializable {
     private Integer quantity;
     @Column(nullable = false)
     private BookType bookType;
-    @Lob
-    private byte[] bookImage;
+    @Column(nullable = false)
+    private String bookImage;
 
     @ManyToAny
     @JoinTable(
