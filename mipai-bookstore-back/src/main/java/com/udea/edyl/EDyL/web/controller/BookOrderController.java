@@ -25,14 +25,15 @@ public class BookOrderController {
     }
 
     @PostMapping("/save-book-order")
-    public ResponseEntity<?> saveBookOrder(@RequestBody BookOrderDto bookOrderDto) throws Exception {
+    public ResponseEntity<?> saveBookOrder(@RequestBody BookOrderDto bookOrderDto, 
+    @RequestParam Long[] bookIds) throws Exception {
         if (bookOrderDto == null) {
             return ResponseEntity.badRequest().body("Invalid book order data"); 
         }
 
         BookOrderDto resp;
         try {
-            resp = bookOrderService.saveBookOrder(bookOrderDto);
+            resp = bookOrderService.saveBookOrder(bookOrderDto, bookIds);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

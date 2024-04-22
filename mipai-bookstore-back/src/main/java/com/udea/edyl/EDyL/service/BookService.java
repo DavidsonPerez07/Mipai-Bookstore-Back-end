@@ -121,4 +121,21 @@ public class BookService {
 
         return exists;
     }
+
+    public void editQuantity(Long bookId) throws Exception {
+        Boolean exists = bookRepo.existsById(bookId);
+
+        if (exists) {
+            Optional<Book> entBook = bookRepo.findById(bookId);
+
+            if (entBook.get().getQuantity() >= 1) {
+                entBook.get().setQuantity(entBook.get().getQuantity() - 1);
+            
+                bookRepo.save(entBook.get());
+            }
+            else {
+                throw new Exception("There is not enough books");
+            }
+        }
+    }
 }

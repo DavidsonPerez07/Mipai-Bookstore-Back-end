@@ -19,20 +19,28 @@ public class BookOrderService {
     BookOrderRepository bookOrderRepo;
     UserRepository userRepo;
     ModelMapper bookOrderMapper;
+    BookService bookService;
 
     public BookOrderService(BookOrderRepository bookOrderRepo, UserRepository userRepo, 
-    ModelMapper bookOrderMapper) {
+    ModelMapper bookOrderMapper, BookService bookService) {
         this.bookOrderRepo = bookOrderRepo;
         this.userRepo = userRepo;
         this.bookOrderMapper = bookOrderMapper;
+        this.bookService = bookService;
     }
 
-    public BookOrderDto saveBookOrder(BookOrderDto bookOrderDto) throws Exception {
+    public BookOrderDto saveBookOrder(BookOrderDto bookOrderDto, Long[] bookIds) throws Exception {
         if (bookOrderDto == null) {
             throw new Exception("Invalid parameter");
         }
         else if (bookOrderDto.getOrderDate() == null) {
             throw new Exception("Date is required");
+        }
+
+        for (Long id : bookIds) {
+            BookDto book = bookService.getBook(id);
+            bookService.deleteBook(id);
+            bookOrderDto.getBooks().add(book);
         }
         
         Float orderValue = 0.0f;
