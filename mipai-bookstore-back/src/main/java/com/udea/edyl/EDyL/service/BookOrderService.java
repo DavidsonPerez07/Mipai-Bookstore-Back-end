@@ -52,7 +52,7 @@ public class BookOrderService {
         Optional<User> user = userRepo.findById(bookOrderDto.getUserId());
 
         if (!user.isPresent()) {
-            throw new Exception("The user does't exist");
+            throw new Exception("The user doesn't exist");
         }
 
         BookOrder entBookOrder = bookOrderRepo.save(bookOrderMapper.map(bookOrderDto, 
