@@ -74,10 +74,9 @@ public class BookController {
     }
 
     @PutMapping("/edit-book")
-    public ResponseEntity<?> editBook(@RequestParam Long bookId, @RequestBody BookDto updatedBook,
-    @RequestParam Integer bookType) {
+    public ResponseEntity<?> editBook(@RequestParam Long bookId, @RequestBody BookDto updatedBook) {
         
-        Boolean resp = bookService.editBook(bookId, updatedBook, bookType);
+        Boolean resp = bookService.editBook(bookId, updatedBook);
 
         if (!resp) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("This book doesn't exist");

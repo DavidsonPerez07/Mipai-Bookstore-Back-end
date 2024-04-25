@@ -98,7 +98,7 @@ public class BookService {
         return exists;
     }
 
-    public Boolean editBook(Long bookId, BookDto updatedBook, Integer bookType) {
+    public Boolean editBook(Long bookId, BookDto updatedBook) {
         Boolean exists = bookRepo.existsById(bookId);
 
         if (exists) {
@@ -108,7 +108,7 @@ public class BookService {
             entBook.get().setBookDescription(updatedBook.getBookDescription());
             entBook.get().setPrice(updatedBook.getPrice());
             entBook.get().setCategory(updatedBook.getCategory());
-            entBook.get().setQuantity(bookType);
+            entBook.get().setQuantity(updatedBook.getQuantity());
             entBook.get().setBookType(updatedBook.getBookType());
             entBook.get().setBookImage(updatedBook.getBookImage());
             entBook.get().setEditorial(updatedBook.getEditorial());
