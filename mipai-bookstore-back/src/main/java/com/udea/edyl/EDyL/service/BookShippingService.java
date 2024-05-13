@@ -18,13 +18,16 @@ public class BookShippingService {
     BookShippingRepository bookShippingRepo;
     BookOrderRepository bookOrderRepo;
     ModelMapper bookShippingMapper;
+    BookOrderService bookOrderService;
 
     public BookShippingService(BookShippingRepository bookShippingRepo, 
     BookOrderRepository bookOrderRepo, 
-    ModelMapper bookShippingMapper) {
+    ModelMapper bookShippingMapper,
+    BookOrderService bookOrderService) {
         this.bookShippingRepo = bookShippingRepo;
         this.bookShippingMapper = bookShippingMapper;
         this.bookOrderRepo = bookOrderRepo;
+        this.bookOrderService = bookOrderService;
     }
 
     public BookShippingDto saveBookShipping(BookShippingDto bookShippingDto) throws Exception {
@@ -65,11 +68,9 @@ public class BookShippingService {
     }
 
     public List<BookShippingDto> getAllBookShippings() {
-        List<BookShipping> bookShippings = bookShippingRepo.findAll();
+        List<BookShippingDto> bookShippingDtos = new ArrayList<>();
 
-        List<BookShippingDto> bookShippingDtos = new ArrayList<BookShippingDto>();
-
-        for (BookShipping bookShipping : bookShippings) {
+        for (BookShipping bookShipping : bookShippingRepo.findAll()) {
             bookShippingDtos.add(bookShippingMapper.map(bookShipping, 
             BookShippingDto.class));
         }
@@ -78,22 +79,18 @@ public class BookShippingService {
     }
 
     public Boolean deleteBookShipping(Long bookShippingId) {
-        Boolean exists = bookShippingRepo.existsById(bookShippingId);
-
-        if (exists) {
+        if (existById(bookShippingId)) {
             bookShippingRepo.deleteById(bookShippingId);
         }
         else {
             return false;
         }
 
-        return exists;
+        return existById(bookShippingId);
     }
 
     public Boolean setDelivered(Long bookShippingId) {
-        Boolean exists = bookShippingRepo.existsById(bookShippingId);
-
-        if (exists) {
+        if (existById(bookShippingId)) {
             Optional<BookShipping> entBookShipping = bookShippingRepo.findById(bookShippingId);
             entBookShipping.get().setDelivered(true);
 
@@ -103,6 +100,10 @@ public class BookShippingService {
             return false;
         }
 
-        return exists;
+        return existById(bookShippingId);
+    }
+
+    public Boolean existById(Long bookShippingId) {
+        return bookShippingRepo.existsById(bookShippingId);
     }
 }
