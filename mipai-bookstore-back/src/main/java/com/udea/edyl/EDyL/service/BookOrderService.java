@@ -36,17 +36,14 @@ public class BookOrderService {
         else if (bookOrderDto.getOrderDate() == null) {
             throw new Exception("Date is required");
         }
+        else if (bookOrderDto.getOrderValue() == null) {
+            throw new Exception("Value is required");
+        }
 
         for (Long id : bookIds) {
             BookDto book = bookService.getBook(id);
             bookService.deleteBook(id);
             bookOrderDto.getBooks().add(book);
-        }
-        
-        Float orderValue = 0.0f;
-
-        for (BookDto book : bookOrderDto.getBooks()) {
-            orderValue += book.getPrice();
         }
 
         Optional<User> user = userRepo.findById(bookOrderDto.getUserId());
@@ -57,7 +54,6 @@ public class BookOrderService {
 
         BookOrder entBookOrder = bookOrderRepo.save(bookOrderMapper.map(bookOrderDto, 
         BookOrder.class));
-        entBookOrder.setOrderValue(orderValue);
         entBookOrder.setUser(user.get());
         entBookOrder = bookOrderRepo.save(entBookOrder);
 
