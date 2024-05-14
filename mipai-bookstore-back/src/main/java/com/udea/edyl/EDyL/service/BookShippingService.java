@@ -11,6 +11,7 @@ import com.udea.edyl.EDyL.data.entity.BookOrder;
 import com.udea.edyl.EDyL.data.entity.BookShipping;
 import com.udea.edyl.EDyL.data.repository.BookOrderRepository;
 import com.udea.edyl.EDyL.data.repository.BookShippingRepository;
+import com.udea.edyl.EDyL.web.dto.BookOrderDto;
 import com.udea.edyl.EDyL.web.dto.BookShippingDto;
 
 @Service
@@ -105,5 +106,19 @@ public class BookShippingService {
 
     public Boolean existById(Long bookShippingId) {
         return bookShippingRepo.existsById(bookShippingId);
+    }
+
+    public List<BookShippingDto> getAllBookShippingsByUser(Long userId) {
+        List<BookShippingDto> returnShippings = new ArrayList<>();
+
+        for (BookOrderDto bookOrder : bookOrderService.getAllBookOrdersByUserId(userId)) {
+            BookShippingDto bookShipping = bookShippingMapper.map(
+                bookShippingRepo.findByBookOrderId(bookOrder.getOrderId()), 
+                BookShippingDto.class);
+
+            returnShippings.add(bookShipping);
+        }
+
+        return returnShippings;
     }
 }

@@ -103,4 +103,16 @@ public class BookOrderService {
 
         return exists;
     }
+
+    public List<BookOrderDto> getAllBookOrdersByUserId(Long userId) {
+        List<BookOrder> bookOrders = bookOrderRepo.findAllByUserId(userId);
+
+        List<BookOrderDto> bookOrderDtos = new ArrayList<>();
+
+        for (BookOrder bookOrder : bookOrders) {
+            bookOrderDtos.add(bookOrderMapper.map(bookOrder, BookOrderDto.class));
+        }
+
+        return bookOrderDtos;
+    }
 }

@@ -114,12 +114,7 @@ public class UserService {
     public Boolean existEmail(String email) {
         List<String> emails = getEmails();
 
-        if (emails.contains(email)) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return (emails.contains(email));
     }
 
     public List<String> getEmails() {
