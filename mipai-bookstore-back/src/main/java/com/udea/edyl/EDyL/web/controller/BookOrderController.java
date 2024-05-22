@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.udea.edyl.EDyL.service.BookOrderService;
 import com.udea.edyl.EDyL.web.dto.BookOrderDto;
+import com.udea.edyl.EDyL.web.dto.BookQuantity;
 
 @RestController
 @RequestMapping("book-orders")
+@CrossOrigin(value = "http://localhost:3000")
 public class BookOrderController {
     private BookOrderService bookOrderService;
 
@@ -26,14 +29,14 @@ public class BookOrderController {
 
     @PostMapping("/save-book-order")
     public ResponseEntity<?> saveBookOrder(@RequestBody BookOrderDto bookOrderDto, 
-    @RequestParam Long[] bookIds) throws Exception {
+    @RequestParam BookQuantity[] books) throws Exception {
         if (bookOrderDto == null) {
             return ResponseEntity.badRequest().body("Invalid book order data"); 
         }
 
         BookOrderDto resp;
         try {
-            resp = bookOrderService.saveBookOrder(bookOrderDto, bookIds);
+            resp = bookOrderService.saveBookOrder(bookOrderDto, books);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }

@@ -13,6 +13,7 @@ import com.udea.edyl.EDyL.data.repository.BookOrderRepository;
 import com.udea.edyl.EDyL.data.repository.UserRepository;
 import com.udea.edyl.EDyL.web.dto.BookDto;
 import com.udea.edyl.EDyL.web.dto.BookOrderDto;
+import com.udea.edyl.EDyL.web.dto.BookQuantity;
 
 @Service
 public class BookOrderService {
@@ -29,7 +30,7 @@ public class BookOrderService {
         this.bookService = bookService;
     }
 
-    public BookOrderDto saveBookOrder(BookOrderDto bookOrderDto, Long[] bookIds) throws Exception {
+    public BookOrderDto saveBookOrder(BookOrderDto bookOrderDto, BookQuantity[] books) throws Exception {
         if (bookOrderDto == null) {
             throw new Exception("Invalid parameter");
         }
@@ -40,10 +41,12 @@ public class BookOrderService {
             throw new Exception("Value is required");
         }
 
-        for (Long id : bookIds) {
-            BookDto book = bookService.getBook(id);
-            bookService.deleteBook(id);
-            bookOrderDto.getBooks().add(book);
+        for (BookQuantity book : books) {
+            for (int i = 0; i < book.getQuantity(); i++) {
+                BookDto bookDto = bookService.getBook(book.getBookId());
+                bookService.editQuantity(book.getBookId());
+                bookOrderDto.getBooks().add(bookDto);
+            }
         }
 
         Optional<User> user = userRepo.findById(bookOrderDto.getUserId());
