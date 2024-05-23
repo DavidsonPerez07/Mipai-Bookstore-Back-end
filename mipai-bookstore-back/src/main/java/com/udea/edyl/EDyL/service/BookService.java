@@ -8,6 +8,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.udea.edyl.EDyL.data.entity.Book;
+import com.udea.edyl.EDyL.data.entity.BookOrder;
+import com.udea.edyl.EDyL.data.repository.BookOrderRepository;
 import com.udea.edyl.EDyL.data.repository.BookRepository;
 import com.udea.edyl.EDyL.web.dto.BookDto;
 
@@ -15,10 +17,13 @@ import com.udea.edyl.EDyL.web.dto.BookDto;
 public class BookService {
     private BookRepository bookRepo;
     private ModelMapper bookMapper;
+    private BookOrderRepository bookOrderRepository;
 
-    public BookService(BookRepository bookRepo, ModelMapper bookMapper) {
+    public BookService(BookRepository bookRepo, ModelMapper bookMapper, 
+    BookOrderRepository bookOrderRepository) {
         this.bookRepo = bookRepo;
         this.bookMapper = bookMapper;
+        this.bookOrderRepository = bookOrderRepository;
     }
 
     public BookDto saveBook(BookDto bookDto) throws Exception {
@@ -149,5 +154,19 @@ public class BookService {
         }
 
         return bookDtos;
+    }
+
+    public void saveBookOrderInBook(Long bookId, BookOrder bookOrder) throws Exception {
+        Boolean exists = bookRepo.existsById(bookId);
+
+        if (exists) {
+            Optional<Book> entBook = bookRepo.findById(bookId);
+            entBook.get().getBookOrders().add(bookOrder);
+
+            bookRepo.save(entBook.get());
+        }
+        else {
+            throw new Exception("Isn't possible to relate the book order with the book");
+        }
     }
 }

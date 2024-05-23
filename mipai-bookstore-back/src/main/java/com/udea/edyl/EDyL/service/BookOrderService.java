@@ -64,6 +64,10 @@ public class BookOrderService {
         entBookOrder.setUser(user.get());
         entBookOrder = bookOrderRepo.save(entBookOrder);
 
+        for (BookDto book : bookOrderDto.getBooks()) {
+            bookService.saveBookOrderInBook(book.getBookId(), entBookOrder);
+        }
+
         return bookOrderMapper.map(entBookOrder, BookOrderDto.class);
     }
 
