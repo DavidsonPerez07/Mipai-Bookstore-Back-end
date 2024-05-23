@@ -84,4 +84,11 @@ public class BookController {
 
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/get-books-by-category")
+    public ResponseEntity<?> getBooksByCategory(@RequestParam String category) {
+        List<BookDto> bookDtos = bookService.getBooksByCategory(category);
+
+        return ResponseEntity.ok(bookDtos);
+    }
 }

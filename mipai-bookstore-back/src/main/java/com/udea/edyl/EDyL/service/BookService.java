@@ -138,4 +138,16 @@ public class BookService {
             }
         }
     }
+
+    public List<BookDto> getBooksByCategory(String category) {
+        List<Book> books = bookRepo.findAllByCategory(category);
+
+        List<BookDto> bookDtos = new ArrayList<>();
+
+        for (Book book : books) {
+            bookDtos.add(bookMapper.map(book, BookDto.class));
+        }
+
+        return bookDtos;
+    }
 }
