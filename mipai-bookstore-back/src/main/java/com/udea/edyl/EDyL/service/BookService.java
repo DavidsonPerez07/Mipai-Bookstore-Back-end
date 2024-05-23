@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.udea.edyl.EDyL.data.entity.Book;
 import com.udea.edyl.EDyL.data.entity.BookOrder;
-import com.udea.edyl.EDyL.data.repository.BookOrderRepository;
 import com.udea.edyl.EDyL.data.repository.BookRepository;
 import com.udea.edyl.EDyL.web.dto.BookDto;
 
@@ -17,13 +16,10 @@ import com.udea.edyl.EDyL.web.dto.BookDto;
 public class BookService {
     private BookRepository bookRepo;
     private ModelMapper bookMapper;
-    private BookOrderRepository bookOrderRepository;
 
-    public BookService(BookRepository bookRepo, ModelMapper bookMapper, 
-    BookOrderRepository bookOrderRepository) {
+    public BookService(BookRepository bookRepo, ModelMapper bookMapper) {
         this.bookRepo = bookRepo;
         this.bookMapper = bookMapper;
-        this.bookOrderRepository = bookOrderRepository;
     }
 
     public BookDto saveBook(BookDto bookDto) throws Exception {
