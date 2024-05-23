@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class BookOrderRequest {
     private BookOrderDto bookOrderDto;
     private List<BookQuantity> books;
+    private String date;
 }

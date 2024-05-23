@@ -17,7 +17,7 @@ import com.udea.edyl.EDyL.web.dto.BookQuantity;
 
 @Service
 public class BookOrderService {
-    BookOrderRepository bookOrderRepo;
+    BookOrderRepository bookOrderRepo; 
     UserRepository userRepo;
     ModelMapper bookOrderMapper;
     BookService bookService;
@@ -41,13 +41,17 @@ public class BookOrderService {
             throw new Exception("Value is required");
         }
 
+        List<BookDto> bookDtos = new ArrayList<>();
+
         for (BookQuantity book : books) {
             for (int i = 0; i < book.getQuantity(); i++) {
                 BookDto bookDto = bookService.getBook(book.getBookId());
                 bookService.editQuantity(book.getBookId());
-                bookOrderDto.getBooks().add(bookDto);
+                bookDtos.add(bookDto);
             }
         }
+
+        bookOrderDto.setBooks(bookDtos);
 
         Optional<User> user = userRepo.findById(bookOrderDto.getUserId());
 

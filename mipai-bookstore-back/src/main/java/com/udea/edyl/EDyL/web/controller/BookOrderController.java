@@ -1,7 +1,11 @@
 package com.udea.edyl.EDyL.web.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.List;
 
+import org.modelmapper.internal.bytebuddy.agent.builder.AgentBuilder.LocationStrategy.Simple;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -30,12 +34,20 @@ public class BookOrderController {
     @PostMapping("/save-book-order")
     public ResponseEntity<?> saveBookOrder(@RequestBody BookOrderRequest request) throws Exception {
         BookOrderDto bookOrderDto = request.getBookOrderDto();
-        
+        SimpleDateFormat dateForm = new SimpleDateFormat("dd/mm/yyyy");
+
         if (bookOrderDto == null) {
             return ResponseEntity.badRequest().body("Invalid book order data"); 
         }
 
+        try {
+            bookOrderDto.setOrderDate(dateForm.parse(request.getDate()));
+        } catch (ParseException e){
+            e.printStackTrace();
+        }
+
         BookOrderDto resp;
+        
         try {
             resp = bookOrderService.saveBookOrder(bookOrderDto, request.getBooks());
         } catch (Exception e) {
