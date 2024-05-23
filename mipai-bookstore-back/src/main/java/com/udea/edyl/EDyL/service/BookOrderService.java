@@ -30,7 +30,7 @@ public class BookOrderService {
         this.bookService = bookService;
     }
 
-    public BookOrderDto saveBookOrder(BookOrderDto bookOrderDto, BookQuantity[] books) throws Exception {
+    public BookOrderDto saveBookOrder(BookOrderDto bookOrderDto, List<BookQuantity> books) throws Exception {
         if (bookOrderDto == null) {
             throw new Exception("Invalid parameter");
         }

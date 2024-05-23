@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.udea.edyl.EDyL.service.BookOrderService;
 import com.udea.edyl.EDyL.web.dto.BookOrderDto;
-import com.udea.edyl.EDyL.web.dto.BookQuantity;
+import com.udea.edyl.EDyL.web.dto.BookOrderRequest;
 
 @RestController
 @RequestMapping("book-orders")
@@ -28,15 +28,16 @@ public class BookOrderController {
     }
 
     @PostMapping("/save-book-order")
-    public ResponseEntity<?> saveBookOrder(@RequestBody BookOrderDto bookOrderDto, 
-    @RequestParam BookQuantity[] books) throws Exception {
+    public ResponseEntity<?> saveBookOrder(@RequestBody BookOrderRequest request) throws Exception {
+        BookOrderDto bookOrderDto = request.getBookOrderDto();
+        
         if (bookOrderDto == null) {
             return ResponseEntity.badRequest().body("Invalid book order data"); 
         }
 
         BookOrderDto resp;
         try {
-            resp = bookOrderService.saveBookOrder(bookOrderDto, books);
+            resp = bookOrderService.saveBookOrder(bookOrderDto, request.getBooks());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
